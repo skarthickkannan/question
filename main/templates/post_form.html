@@ -6,13 +6,18 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Question</legend>
-                {{ form.media }}
-                {{ form|crispy }}
+                {% if user.is_authenticated %}
+                    {{ form.media }}
+                    {{ form|crispy }}
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit">Post</button>
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                {% else%}
+                    <a href="{% url 'login' %}">Login To Ask Question</a>
+                {% endif %}
             </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Post</button>
-                <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
-            </div>
+           
         </form>
     </div>
 {% endblock content %}
