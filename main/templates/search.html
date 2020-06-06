@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  
+    {% for k in sr %}
+        <article class="media content-section" >
+           
+            <div class="media-body">
+            <h3>{{ k.post|safe }}</h3>
+            <p class="article-content" style="text-align: justify;">{{ k.answer|safe }}</p>
+            {% if k.image %}
+            <img src="{{ k.image.url }}" class="img-thumbnail" alt="">
+          {% endif %}
+            </div>
+        </article>
+    {% endfor %}
+{% endblock %}
