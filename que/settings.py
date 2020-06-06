@@ -25,7 +25,7 @@ SECRET_KEY = 'ul$$=ki_pv1i-*=p4@9iw4w_c8lb8_+jsj9!!-&tg_*6b34@$d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['quesa.herokuapp.com' ]
 
 
 # Application definition
