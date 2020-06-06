@@ -20,7 +20,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', PostList.as_view(template_name='home.html'), name='home'),
+    path('', PostList.as_view(template_name='home.html'), name='home'),
     path('search/', search, name='search'),
     path('like/<int:pk>/', like_view, name='like_post'),
     path('post/<int:pk>/detail/', PostDetailView.as_view(template_name='post_detail.html'), name='post_detail'),
