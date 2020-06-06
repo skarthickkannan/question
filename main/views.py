@@ -6,6 +6,7 @@ from .forms import AnswerForm, CommentForm, UserForm
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def home(request):
     context = {'posts': Post.objects.all()}
@@ -28,6 +29,8 @@ def search(request):
         )
             if match:
                 return render(request, 'search.html', {'sr': match})
+            else:
+                messages.error(request, 'No search found')
 
         else:
             return HttpResponseRedirect('/search/')
