@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from hitcount.views import HitCountDetailView
 
 def home(request):
     context = {'posts': Post.objects.all()}
@@ -98,6 +99,16 @@ def CommentCreateView(request, id):
     return render(request, 'comment.html', {'answer': answer,
                                            'comment_form': comment_form})
 
-class PostDetailView(DetailView):
+class PostDetailView(HitCountDetailView):
     model = Post
+    template_name = 'post_detail.html'
+    context_object_name = 'post'
+    count_hit = True
+
+    def get_context_data(self, **kwargs):
+        context = super(PostDetailView, self).get_context_data(**kwargs)
+        context.update({
+        'popular_posts': Post.objects.order_by('-hit_count_generic__hits')[:3],
+        })
+        return context
     

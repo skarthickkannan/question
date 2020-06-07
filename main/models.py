@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
 from ckeditor.fields import RichTextField
+from hitcount.models import HitCountMixin, HitCount
+from django.contrib.contenttypes.fields import GenericRelation
 
 class Post(models.Model):
     question = RichTextField(null=True, blank=True)
@@ -10,6 +12,8 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     likes       = models.ManyToManyField(User, related_name='blog_post')
     dislikes       = models.ManyToManyField(User, related_name='blog_posts')
+    hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
+     related_query_name='hit_count_generic_relation')
 
     def __str__(self):
         return self.question

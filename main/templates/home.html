@@ -1,13 +1,17 @@
 {% extends "base.html" %}
+{% load hitcount_tags %}
 {% block content %}
 <article class="content-section">
     {% for post in posts %}
           <div class="media-body">
           
-            <h5><a class="article-title mt-2" href="{% url 'post_answer' post.id %}" style="color: #52B7EB;">{{ post.question|safe }}</a></h5>
-           
+            <h5><a class="article-title mt-2" href="{% url 'post_detail' post.id %}" style="color: #52B7EB;">{{ post.question|safe }}</a></h5>
+            
             <small >Total Answer. {{ post.answers.count }} | likes. {{ post.likes.count }}</small>
+            <p>Views: {% get_hit_count for post %}</p>
+           
           </div>
+         
     {% endfor %}
     {% if is_paginated %}
     {% if page_obj.has_previous %}
