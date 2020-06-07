@@ -8,11 +8,11 @@
             <small class="text-muted mt-2"><a class="mr-2" href="#" style="text-decoration: none; color: black;">Posted-by {{ post.author }} on {{ post.date_posted }}</a></small>
             <p>Views: {% get_hit_count for post %}</p>
           </div>
-          <a href="{% url 'post_answer' post.id %}">Answer This</a>
+          <a href="{% url 'post_answer' post.id %}" title="Click this to Answer">Answer This</a>
           <h5>Answers:</h5>
           {% for answer in post.answers.all %}
           <div class="media-body">
-           <h5><a class="article-title mt-2" href="{% url 'post_answer_comment' answer.id %}">{{ answer.answer|safe }}</a></h5>
+           <h5><a class="article-title mt-2" title="Click to view comments" href="{% url 'post_answer_comment' answer.id %}">{{ answer.answer|safe }}</a></h5>
          </div>
             {% empty %}
                 <small class="text-muted">No Answers</small>
@@ -24,6 +24,4 @@
             <p>{{p|safe}}</p>
           {% endfor %}
   </article>
-
-
 {% endblock %}

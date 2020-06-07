@@ -2,22 +2,55 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Answer
 from django.views.generic import DetailView, CreateView, ListView
 from django.urls import reverse
-from .forms import AnswerForm, CommentForm, UserForm
+from .forms import AnswerForm, CommentForm, UserForm, ProfileUpdate, UserUpdate
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from hitcount.views import HitCountDetailView
+from django.contrib.auth.models import User
 
 def home(request):
     context = {'posts': Post.objects.all()}
     return render(request, 'home.html', context)
+
+
+def profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdate(request.POST, instance=request.user)
+        p_form = ProfileUpdate(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            return redirect('profile')
+    else:
+        u_form = UserUpdate(instance=request.user)
+        p_form = ProfileUpdate(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+
+    return render(request, 'profile.html', context)
+
 
 class PostList(ListView):
     model = Post
     context_object_name = 'posts'
     template_name = 'home.html'
     paginate_by = 10
+
+    
+    def get_context_data(self, **kwargs):
+        context = super(PostList, self).get_context_data(**kwargs)
+        context.update({
+        'popular_posts': Post.objects.order_by('-hit_count_generic__hits')[:10],
+        })
+        return context
+    
 
 def search(request):
     if request.method == 'POST':
@@ -42,7 +75,11 @@ def register(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
-            form.save()
+            username = form.cleaned_data["username"]
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password1"]
+            new_user = User.objects.create_user(username=username, email=email, password=password)
+            new_user.save()
             return redirect('login')
     else:
         form = UserForm()

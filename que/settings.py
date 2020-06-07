@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['quesa.herokuapp.com','127.0.0.1' ]
 # Application definition
 
 INSTALLED_APPS = [
-    'main',
+    'main.apps.MainConfig',
     'crispy_forms',
     'ckeditor',
     'hitcount',
@@ -132,5 +132,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_NAME = 'bootstrap4'
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = '/home'
