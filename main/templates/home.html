@@ -11,13 +11,17 @@
             
            
           </div>
-          <div class=" card col-md-3 fixed-top" style="margin-left: 75%; margin-top: 79px; width: 18rem;">
-            <div >
-                  <h4>Popular Questions:</h4>
-                  {% for p in popular_posts %}
-                    <p>{{p|safe}}</p>
-                  {% endfor %}
-              </p>
+          <div class="container">
+            <div class="row">
+              <div class="card col-4 fixed-top" style="margin-left: 75%; margin-top: 79px; width: 18rem;">
+              <div >
+                    <h4>Popular Questions:</h4>
+                    {% for p in popular_posts %}
+                      <p>{{p|safe}}</p>
+                    {% endfor %}
+                </p>
+              </div>
+              </div>
             </div>
           </div>
     {% endfor %}
